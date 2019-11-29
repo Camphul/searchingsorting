@@ -22,7 +22,22 @@ public class Node implements Comparable<Node> {
 
     @Override
     public int compareTo(Node o) {
-        return 0;
+        int weightCompare = this.weight - o.getWeight();
+        //When the comparison comes out as equal
+        if(weightCompare == 0) {
+            //compare alphabetically when both leafes
+            if(isLeaf() && o.isLeaf()) {
+                return o.getCharacter().compareTo(getCharacter());
+            } else if(isLeaf() && !o.isLeaf()) {
+                //Sort to left as leafes go first.
+                return 1;
+            } else if(!isLeaf() && o.isLeaf()) {
+                //Sort to right as nodes go second
+                return -1;
+            }
+        }
+        //
+        return weightCompare;
     }
 
     public Node getLeft() {
@@ -41,4 +56,11 @@ public class Node implements Comparable<Node> {
         return character;
     }
 
+    /**
+     * Custom method to determine if char node.
+     * @return
+     */
+    public boolean isLeaf() {
+        return this.getCharacter() != null;
+    }
 }
