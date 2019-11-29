@@ -11,6 +11,7 @@ public class BoyerMoore {
     private String pat;      // or as a string
     private int comparisonCount = 0;
 
+
     /**
      * Preprocesses the pattern string.
      *
