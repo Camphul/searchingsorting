@@ -1,6 +1,8 @@
 package nl.hva.ict.se.sands;
 
 public class BackwardsSearch {
+
+    private int comparisonCount = 0;
     /**
      * Returns index of the right most location where <code>needle</code> occurs within <code>haystack</code>. Searching
      * starts at the right end side of the text (<code>haystack</code>) and proceeds to the first character (left side).
@@ -10,6 +12,8 @@ public class BackwardsSearch {
      * character of the <code>needle</code>.
      */
     int findLocation(String needle, String haystack) {
+        comparisonCount = 0;
+
         return -1;
     }
 
@@ -18,7 +22,7 @@ public class BackwardsSearch {
      * @return the number of character comparisons during the last search.
      */
     int getComparisonsForLastSearch() {
-        return 0;
+        return this.comparisonCount;
     }
 
 }
