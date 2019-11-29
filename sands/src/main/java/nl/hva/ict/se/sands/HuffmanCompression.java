@@ -12,11 +12,6 @@ public class HuffmanCompression {
     private Node compressionTree;
     private Map<Character, String> encodingMap;
 
-    public static void main(String[] args) {
-        HuffmanCompression huffmanCompression = new HuffmanCompression("ABRACADABRA!");
-
-    }
-
     public HuffmanCompression(String text) {
         this.text = text;
         initialize();
@@ -29,14 +24,17 @@ public class HuffmanCompression {
         initialize();
     }
 
+    /**
+     * Calculate tree and build encoding map.
+     */
     private void initialize() {
         Node[] nodes = findCharacterWeights();
         this.compressionTree = buildTree(nodes)[0];
-        printTree();
+        //printTree();
         this.encodingMap = new HashMap<>();
         getCodes(this.encodingMap, this.compressionTree, "");
-        System.out.println("Encoding map:");
-        System.out.println(this.encodingMap);
+        // System.out.println("Encoding map:");
+        //System.out.println(this.encodingMap);
     }
 
     /**
@@ -49,32 +47,39 @@ public class HuffmanCompression {
     }
 
     /**
-     * Debug method to print out tree.
-     * @param node
+     * Debug method to print out entire tree.
+     * @param node root node.
      */
     private void printTree(Node node) {
         System.out.println("[Weight: " + node.getWeight() + "]");
-        if(node.getLeft() != null && node.getRight() != null) {
+        if(!node.isLeaf()) {
             System.out.println("[LEFT]");
             printTree(node.getLeft());
             System.out.println("[RIGHT]");
             printTree(node.getRight());
-        }
-        if(node.getCharacter() != null) {
+        } else {
             System.out.println("[Character: " + String.valueOf(node.getCharacter())+ "]");
         }
     }
 
+    /**
+     * Builds an sorts tree using recursion.
+     * @param nodes array of nodes to build into a tree.
+     * @return array of length one when completed.
+     */
     private Node[] buildTree(Node[] nodes) {
         //Recursive exit function
         if(nodes.length == 1) {
-            System.out.println("Exit condition reached.");
             return nodes;
         }
+        //Sort on weights/alphabet/etc...
         Arrays.sort(nodes);
+        // We do not have to check which one goes left since it's being sorted in the compareTo of the node.
         Node left = nodes[0];
         Node right = nodes[1];
+
         Node parent = new Node(left, right);
+        //Place new parent node in new array and copy over un-processed nodes.
         Node[] newNodes = new Node[nodes.length - 1];
         newNodes[0] = parent;
         for (int i = 2; i < nodes.length; i++) {
@@ -83,6 +88,10 @@ public class HuffmanCompression {
         return buildTree(newNodes);
     }
 
+    /**
+     * Builds an array of character nodes with their weights. Unsorted.
+     * @return character nodes with weights array.
+     */
     private Node[] findCharacterWeights() {
         char[] chars = this.text.toCharArray();
         int[] freq = new int[MAX_CHARACTERS];
@@ -100,12 +109,10 @@ public class HuffmanCompression {
             int frequency = freq[i];
             if(frequency > 0) {
                 char ch = (char) i;
+                //Creates nodes.
                 nodes[nodeCount] = new Node(frequency, ch);
                 nodeCount++;
             }
-        }
-        for (Node node : nodes) {
-            System.out.println("Char: " + String.valueOf(node.getCharacter()) + " Weight: " + node.getWeight());
         }
         return nodes;
     }
@@ -116,14 +123,8 @@ public class HuffmanCompression {
      */
     public double getCompressionRatio() {
         int uncompressedSize = this.text.length() * 8;
-        int compressedSize = 0;
-        Node[] characterWeights = findCharacterWeights();
-        for (Node characterNode : characterWeights) {
-            Character ch = characterNode.getCharacter();
-            String encoding = this.encodingMap.get(ch);
-            int encodingLength = encoding.length();
-            compressedSize += encodingLength * characterNode.getWeight();
-        }
+        //Since the result of compress is the entire encoded string we can simply grab the length.
+        int compressedSize = this.compress().length();
         System.out.println("Uncompressed size: " + uncompressedSize);
         System.out.println("Compressed size: " + compressedSize);
         return ((double)compressedSize/(double)uncompressedSize);
@@ -134,7 +135,14 @@ public class HuffmanCompression {
      * @return
      */
     public String compress() {
-        return "";
+        char[] chars = this.text.toCharArray();
+        String compressed = "";
+        //Loop through chars
+        for (char aChar : chars) {
+            //Get specified encoding and append compressed string.
+            compressed += this.encodingMap.get(aChar);
+        }
+        return compressed;
     }
 
     /**
@@ -168,11 +176,6 @@ public class HuffmanCompression {
             getCodes(encodings, root.getLeft(), currentPath + "0");
             getCodes(encodings, root.getRight(), currentPath + "1");
         }
-    }
-
-
-    private boolean isCharNode(Node node) {
-        return node.getCharacter() != null;
     }
 
 }
