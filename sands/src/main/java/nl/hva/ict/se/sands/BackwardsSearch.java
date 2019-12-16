@@ -27,7 +27,7 @@ public class BackwardsSearch {
         // position of rightmost occurrence of c in the pattern
         left = new int[R];
         for (int c = R-1; c > 0; c--)
-            left[c] = needle.length();
+            left[c] = needle.length() -1 ;
         for (int j = needle.length() - 1; j > 0; j--)
             left[needle.charAt(j)] = j;
 
