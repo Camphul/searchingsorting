@@ -24,19 +24,19 @@ public class BackwardsSearch {
         this.R = 256;
 
         // preprocess pattern ----------------------------------------
-        // position of rightmost occurrence of c in the pattern
+        // position of leftmost occurrence of c in the pattern
         left = new int[R];
-        for (int c = R-1; c > 0; c--)
-            left[c] = needle.length() -1 ;
-        for (int j = needle.length() - 1; j > 0; j--)
+        for (int c = 0; c < R; c++)
+            left[c] = needle.length() -1;
+        for (int j = 0; j < needle.length(); j++)
             left[needle.charAt(j)] = j;
 
         // search ----------------------------------------------------
         int m = needle.length();
         int n = haystack.length();
         int skip = 0;
-        for (int i = n - m; i >= m; i -= skip) {
-            System.out.println("skip was " + skip + ", now looking at text index " + i);
+        for (int i = n - m; i >= 0; i -= skip) {
+            //System.out.println("skip was " + skip + ", now looking at text index " + i);
             skip = 0;
             for (int j = 0; j < m; j++) {
                 this.comparisonCount++;
