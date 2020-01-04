@@ -48,6 +48,7 @@ public abstract class AbstractPathSearch {
      * First the LinkedList verticesInPath, containing the indexes of the stations, should be build, used as a stack
      * Then the list nodesInPath containing the actual stations is build.
      * Also the number of transfers is counted.
+     *
      * @param vertex The station (vertex) as an index
      */
     public void pathTo(int vertex) {

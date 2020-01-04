@@ -27,6 +27,7 @@ public class Station {
 
     /**
      * Method to find the lines two stations have in common, the intersection of their sets of lines.
+     *
      * @param station Station to find common lines with
      * @return The set of lines the stations have in common
      */
@@ -39,6 +40,7 @@ public class Station {
 
     /**
      * Method to get one line that two stations have in common
+     *
      * @param station
      * @return
      */

@@ -1,8 +1,5 @@
 package model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class Connection {
 
     private Station from;
@@ -45,7 +42,6 @@ public class Connection {
     public void setWeight(double weight) {
         this.weight = weight;
     }
-
 
 
     @Override

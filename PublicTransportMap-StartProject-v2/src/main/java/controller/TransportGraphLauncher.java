@@ -1,5 +1,7 @@
 package controller;
 
+import model.TransportGraph;
+
 public class TransportGraphLauncher {
 
     public static void main(String[] args) {
@@ -8,10 +10,13 @@ public class TransportGraphLauncher {
         String[] greenLine = {"green", "metro", "H", "I", "C", "G", "J"};
         String[] yellowLine = {"yellow", "bus", "A", "E", "H", "D", "G", "A"};
 
-        // TODO Use the builder to build the graph from the String array.
+        // TODO Use the builder to build the graph from the String array
 
+        TransportGraph transportGraph = new TransportGraph.Builder()
+                .addLine(redLine).addLine(blueLine).addLine(greenLine).addLine(yellowLine)
+                .buildStationSet().addLinesToStations().buildConnections().build();
 //        Uncomment to test the builder:
-//        System.out.println(transportGraph);
+        System.out.println(transportGraph);
 
 //        Uncommented to test the DepthFirstPath algorithm
         /*DepthFirstPath dfpTest = new DepthFirstPath(transportGraph, "E", "J");
