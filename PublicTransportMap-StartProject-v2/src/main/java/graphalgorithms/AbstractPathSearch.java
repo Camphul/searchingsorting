@@ -1,5 +1,7 @@
 package graphalgorithms;
 
+import model.Connection;
+import model.Line;
 import model.Station;
 import model.TransportGraph;
 
@@ -30,6 +32,8 @@ public abstract class AbstractPathSearch {
         nodesVisited = new ArrayList<>();
         marked = new boolean[graph.getNumberOfStations()];
         edgeTo = new int[graph.getNumberOfStations()];
+        nodesInPath = new ArrayList<>();
+        verticesInPath = new LinkedList<>();
     }
 
     public abstract void search();
@@ -52,7 +56,20 @@ public abstract class AbstractPathSearch {
      * @param vertex The station (vertex) as an index
      */
     public void pathTo(int vertex) {
-        // TODO
+        if (!hasPathTo(vertex)) {
+            return;
+        }
+        int v = vertex;
+        while (v != this.startIndex) {
+            this.verticesInPath.addFirst(v);
+            v = edgeTo[v];
+        }
+        this.verticesInPath.addFirst(this.startIndex);
+        for (Integer vertexNode : verticesInPath) {
+            this.nodesInPath.add(this.graph.getStation(vertexNode));
+        }
+        countTransfers();
+        // DONE
     }
 
     /**
@@ -61,7 +78,21 @@ public abstract class AbstractPathSearch {
      * If to consecutive connections are on different lines there was a transfer.
      */
     public void countTransfers() {
-        // TODO
+        Line line = null;
+        for (int i = 0; i < verticesInPath.size() - 1; i++) {
+            int fromIndex = verticesInPath.get(i);
+            int to = verticesInPath.get(i + 1);
+            Connection connection = this.graph.getConnection(fromIndex, to);
+            if (line == null) {
+                line = connection.getLine();
+            } else {
+                if (!line.equals(connection.getLine())) {
+                    this.transfers += 1;
+                }
+                line = connection.getLine();
+            }
+        }
+        // DONE
     }
 
 

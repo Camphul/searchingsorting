@@ -183,11 +183,11 @@ public class TransportGraph {
          */
         public Builder addLinesToStations() {
             Iterator<Station> stationIterator = this.stationSet.iterator();
-            while(stationIterator.hasNext()) {
+            while (stationIterator.hasNext()) {
                 Station station = stationIterator.next();
                 for (Line line : this.lineList) {
                     for (Station lineStation : line.getStationsOnLine()) {
-                        if(lineStation.equals(station)) {
+                        if (lineStation.equals(station)) {
                             station.addLine(line);
                         }
                     }
@@ -206,8 +206,8 @@ public class TransportGraph {
             for (Line line : this.lineList) {
                 for (int i = 0; i < line.getStationsOnLine().size() - 1; i++) {
                     Station from = line.getStationsOnLine().get(i);
-                    Station to = line.getStationsOnLine().get(i+1);
-                    Connection connection = new Connection(from, to);
+                    Station to = line.getStationsOnLine().get(i + 1);
+                    Connection connection = new Connection(from, to, 0, line);
                     this.connectionSet.add(connection);
                 }
             }
@@ -225,12 +225,12 @@ public class TransportGraph {
         public TransportGraph build() {
             TransportGraph graph = new TransportGraph(stationSet.size());
             Iterator<Station> stationIterator = this.stationSet.iterator();
-            while(stationIterator.hasNext()) {
+            while (stationIterator.hasNext()) {
                 Station station = stationIterator.next();
                 graph.addVertex(station);
             }
             Iterator<Connection> connectionIterator = this.connectionSet.iterator();
-            while(connectionIterator.hasNext()) {
+            while (connectionIterator.hasNext()) {
                 Connection connection = connectionIterator.next();
                 graph.addEdge(connection);
             }

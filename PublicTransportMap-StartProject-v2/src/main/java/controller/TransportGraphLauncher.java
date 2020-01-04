@@ -1,5 +1,6 @@
 package controller;
 
+import graphalgorithms.BreadthFirstPath;
 import model.TransportGraph;
 
 public class TransportGraphLauncher {
@@ -26,10 +27,10 @@ public class TransportGraphLauncher {
         System.out.println();*/
 
 //        Uncommented to test the BreadthFirstPath algorithm
-        /*BreadthFirstPath bfsTest = new BreadthFirstPath(transportGraph, "E", "J");
+        BreadthFirstPath bfsTest = new BreadthFirstPath(transportGraph, "E", "J");
         bfsTest.search();
         System.out.println(bfsTest);
-        bfsTest.printNodesInVisitedOrder();*/
+        bfsTest.printNodesInVisitedOrder();
 
     }
 }
