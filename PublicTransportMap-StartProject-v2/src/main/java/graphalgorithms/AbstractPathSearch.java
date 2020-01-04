@@ -56,15 +56,19 @@ public abstract class AbstractPathSearch {
      * @param vertex The station (vertex) as an index
      */
     public void pathTo(int vertex) {
+        //Traverse path by traversing edgeTo until we're at startIndex
         if (!hasPathTo(vertex)) {
             return;
         }
         int v = vertex;
         while (v != this.startIndex) {
+            //Add as first. Else it would be in reverse order.
             this.verticesInPath.addFirst(v);
             v = edgeTo[v];
         }
+        //Finally ad the first start vertex
         this.verticesInPath.addFirst(this.startIndex);
+        //Convert to nodes
         for (Integer vertexNode : verticesInPath) {
             this.nodesInPath.add(this.graph.getStation(vertexNode));
         }
@@ -80,15 +84,19 @@ public abstract class AbstractPathSearch {
     public void countTransfers() {
         Line line = null;
         for (int i = 0; i < verticesInPath.size() - 1; i++) {
+            //For every vertice next to each other get the connection
             int fromIndex = verticesInPath.get(i);
             int to = verticesInPath.get(i + 1);
             Connection connection = this.graph.getConnection(fromIndex, to);
+            //If line is null it means we're at index 0 probably.
             if (line == null) {
                 line = connection.getLine();
             } else {
+                //If line is not equal to last connection then increment transfers.
                 if (!line.equals(connection.getLine())) {
                     this.transfers += 1;
                 }
+                //Set new line
                 line = connection.getLine();
             }
         }
