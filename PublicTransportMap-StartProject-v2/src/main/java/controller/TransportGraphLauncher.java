@@ -1,8 +1,10 @@
 package controller;
 
+import graphalgorithms.AStarPathSearch;
 import graphalgorithms.BreadthFirstPath;
 import graphalgorithms.DepthFirstPath;
 import graphalgorithms.DijkstraShortestPath;
+import model.Station;
 import model.TransportGraph;
 
 public class TransportGraphLauncher {
@@ -37,6 +39,23 @@ public class TransportGraphLauncher {
                 .locate("Swingstraat", 10, 9).locate("Bachgracht", 11, 11)
                 .locate("Nobelplein", 12, 13)
                 .buildStationSet().addLinesToStations().buildConnections().build();
+
+        /*System.out.println("Dijkstra:");
+        DijkstraShortestPath dsp = new DijkstraShortestPath(transportGraph, "Marken", "Violetplantsoen");
+        dsp.search();
+        System.out.println(dsp);
+        dsp.printNodesInVisitedOrder();
+        System.out.println();
+        System.out.println("Total weight: " + dsp.getTotalWeight());
+
+        System.out.println("A Star:");
+        AStarPathSearch asp = new AStarPathSearch(transportGraph, "Marken", "Violetplantsoen");
+        asp.search();
+        System.out.println(asp);
+        asp.printNodesInVisitedOrder();
+        System.out.println();
+        System.out.println("Total weight: " + asp.getTotalWeight());*/
+        measure(transportGraph);
         /*DepthFirstPath dfpTest = new DepthFirstPath(transportGraph, "Nobelplein", "Coltrane Cirkel");
         dfpTest.search();
         System.out.println(dfpTest);
@@ -49,12 +68,37 @@ public class TransportGraphLauncher {
         System.out.println(bfsTest);
         bfsTest.printNodesInVisitedOrder();*/
 
-        DijkstraShortestPath dsp = new DijkstraShortestPath(transportGraph, "Violetplantsoen", "Haven");
+    }
+
+    public static void measure(TransportGraph graph) {
+        for (Station station : graph.getStationList()) {
+            String from = station.getStationName();
+            for (Station station1 : graph.getStationList()) {
+                String to = station1.getStationName();
+                if(!from.equals(to)) {
+                    measure(graph, from, to);
+                }
+            }
+        }
+    }
+
+    public static void measure(TransportGraph graph, String from, String to) {
+        //System.out.println("From: " + from + " To: " + to);
+        DijkstraShortestPath dsp = new DijkstraShortestPath(graph, from, to);
         dsp.search();
-        System.out.println(dsp);
-        dsp.printNodesInVisitedOrder();
-        System.out.println();
-        System.out.println("Total weight: " + dsp.getTotalWeight());
+        double dijkstraWeight = dsp.getTotalWeight();
+        AStarPathSearch asp = new AStarPathSearch(graph, from, to);
+        asp.search();
+        double astarWeight = dsp.getTotalWeight();
+        if(astarWeight < dijkstraWeight) {
+            System.out.println("AStar is shorter than dijkstra.");
+            System.out.println(dsp);
+            dsp.printNodesInVisitedOrder();
+            System.out.println("Dijkstra weight: " + dijkstraWeight);
+            System.out.println(asp);
+            asp.printNodesInVisitedOrder();
+            System.out.println("AStar weight: " + astarWeight);
+        }
     }
 
     public static void assignmentA() {
