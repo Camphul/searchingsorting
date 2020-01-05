@@ -3,15 +3,19 @@ package controller;
 import graphalgorithms.BreadthFirstPath;
 import graphalgorithms.DepthFirstPath;
 import graphalgorithms.DijkstraShortestPath;
+import model.Location;
 import model.TransportGraph;
 
 public class TransportGraphLauncher {
 
     public static void main(String[] args) {
-        assignmentB();
+        assignmentBC();
     }
 
-    public static void assignmentB() {
+    /**
+     * Assignment b and c
+     */
+    public static void assignmentBC() {
         String[] redLine = {"Red", "metro", "Haven", "Marken", "Steigerplein", "Centrum", "Meridiaan", "Dukdalf", "Oostvaarders"};
         double[] redWeights = {4.5, 4.7, 6.1, 3.5, 5.4, 5.6};
         String[] blueLine = {"Blue", "metro", "Trojelaan", "Coltrane Cirkle", "Meridiaan", "Robijnpark", "Violetplantsoen"};
@@ -24,6 +28,15 @@ public class TransportGraphLauncher {
         double[] yellowWeights = {26, 19, 37, 25, 22, 28};
         TransportGraph transportGraph = new TransportGraph.Builder()
                 .addLine(redLine, redWeights).addLine(blueLine, blueWeights).addLine(purpleLine, purpleWeights).addLine(greenLine, greenWeights).addLine(yellowLine, yellowWeights)
+                .location("Grote Sluis", 2, 3).location("Oostvaarders", 0,11)
+                .location("Grootzeil", 4, 6).location("Dukdalf", 3, 10)
+                .location("Ymeerdijk", 9,0).location("Trojelaan", 9,3)
+                .location("Coltrane Cirkel", 7, 6).location("Meridiaan", 6, 9)
+                .location("Robijnpark", 6, 12).location("Violetplantsoen", 5, 14)
+                .location("Haven", 14, 1).location("Marken", 12, 3)
+                .location("Steigerplein", 10, 5).location("Centrum", 8, 8)
+                .location("Swingstraat", 10, 9).location("Bachgracht", 11, 11)
+                .location("Nobelplein", 12, 13)
                 .buildStationSet().addLinesToStations().buildConnections().build();
         /*DepthFirstPath dfpTest = new DepthFirstPath(transportGraph, "Nobelplein", "Coltrane Cirkel");
         dfpTest.search();

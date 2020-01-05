@@ -129,12 +129,14 @@ public class TransportGraph {
         private List<Line> lineList;
         private Set<Connection> connectionSet;
         private Map<Line, double[]> weights;
+        private Map<String, Location> locations;
 
         public Builder() {
             lineList = new ArrayList<>();
             stationSet = new HashSet<>();
             connectionSet = new HashSet<>();
             weights = new HashMap<>();
+            locations = new HashMap<>();
         }
 
         /**
@@ -175,6 +177,10 @@ public class TransportGraph {
             return this;
         }
 
+        public Builder location(String stationName, int x, int y) {
+            this.locations.put(stationName, new Location(x, y));
+            return this;
+        }
 
         /**
          * Method that reads all the lines and their stations to build a set of stations.
@@ -185,6 +191,10 @@ public class TransportGraph {
         public Builder buildStationSet() {
             for (Line line : lineList) {
                 for (Station station : line.getStationsOnLine()) {
+                    String name = station.getStationName();
+                    if(this.locations.containsKey(name)) {
+                        station.setLocation(this.locations.get(name));
+                    }
                     this.stationSet.add(station);
                 }
             }
