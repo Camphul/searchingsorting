@@ -1,6 +1,6 @@
 package controller;
 
-import graphalgorithms.AStarPathSearch;
+import graphalgorithms.AStarPath;
 import graphalgorithms.BreadthFirstPath;
 import graphalgorithms.DepthFirstPath;
 import graphalgorithms.DijkstraShortestPath;
@@ -50,7 +50,7 @@ public class TransportGraphLauncher {
         System.out.println("Total weight: " + dsp.getTotalWeight());
 
         System.out.println("A Star:");
-        AStarPathSearch asp = new AStarPathSearch(transportGraph, "Trojelaan", "Centrum");
+        AStarPath asp = new AStarPath(transportGraph, "Trojelaan", "Centrum");
         asp.search();
         System.out.println(asp);
         asp.printNodesInVisitedOrder();
@@ -87,7 +87,7 @@ public class TransportGraphLauncher {
         //System.out.println("From: " + from + " To: " + to);
         DijkstraShortestPath dsp = new DijkstraShortestPath(graph, from, to);
         dsp.search();
-        AStarPathSearch asp = new AStarPathSearch(graph, from, to);
+        AStarPath asp = new AStarPath(graph, from, to);
         asp.search();
         if (asp.getVisitedNodes() < dsp.getVisitedNodes()) {
             System.out.println("AStar Was more efficient: " + asp.getVisitedNodes() + " nodes visited instead of Dijkstra " + dsp.getVisitedNodes() + " node visits");

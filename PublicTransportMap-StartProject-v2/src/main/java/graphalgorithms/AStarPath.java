@@ -11,12 +11,12 @@ import model.TransportGraph;
  * @author <a href="mailto:luca@camphuisen.com">Luca Camphuisen</a>
  * @since 1/5/20
  */
-public class AStarPathSearch extends AbstractPathSearch {
+public class AStarPath extends AbstractPathSearch {
     private static final double INFINITY = Double.POSITIVE_INFINITY;
     private double[] distTo;
     private IndexMinPQ<Double> pq;
 
-    public AStarPathSearch(TransportGraph graph, String start, String end) {
+    public AStarPath(TransportGraph graph, String start, String end) {
         super(graph, start, end);
         int numVertices = graph.getNumberOfStations();
         this.distTo = new double[numVertices];
