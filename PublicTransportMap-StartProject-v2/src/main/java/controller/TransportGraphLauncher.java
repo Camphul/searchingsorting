@@ -40,8 +40,8 @@ public class TransportGraphLauncher {
                 .locate("Nobelplein", 12, 13)
                 .buildStationSet().addLinesToStations().buildConnections().build();
 
-        /*System.out.println("Dijkstra:");
-        DijkstraShortestPath dsp = new DijkstraShortestPath(transportGraph, "Marken", "Violetplantsoen");
+        System.out.println("Dijkstra:");
+        DijkstraShortestPath dsp = new DijkstraShortestPath(transportGraph, "Trojelaan", "Meridiaan");
         dsp.search();
         System.out.println(dsp);
         dsp.printNodesInVisitedOrder();
@@ -49,12 +49,12 @@ public class TransportGraphLauncher {
         System.out.println("Total weight: " + dsp.getTotalWeight());
 
         System.out.println("A Star:");
-        AStarPathSearch asp = new AStarPathSearch(transportGraph, "Marken", "Violetplantsoen");
+        AStarPathSearch asp = new AStarPathSearch(transportGraph, "Trojelaan", "Meridiaan");
         asp.search();
         System.out.println(asp);
         asp.printNodesInVisitedOrder();
         System.out.println();
-        System.out.println("Total weight: " + asp.getTotalWeight());*/
+        System.out.println("Total weight: " + asp.getTotalWeight());
         measure(transportGraph);
         /*DepthFirstPath dfpTest = new DepthFirstPath(transportGraph, "Nobelplein", "Coltrane Cirkel");
         dfpTest.search();
@@ -86,18 +86,17 @@ public class TransportGraphLauncher {
         //System.out.println("From: " + from + " To: " + to);
         DijkstraShortestPath dsp = new DijkstraShortestPath(graph, from, to);
         dsp.search();
-        double dijkstraWeight = dsp.getTotalWeight();
         AStarPathSearch asp = new AStarPathSearch(graph, from, to);
         asp.search();
-        double astarWeight = dsp.getTotalWeight();
-        if(astarWeight < dijkstraWeight) {
-            System.out.println("AStar is shorter than dijkstra.");
+        if(asp.getVisitedNodes() < dsp.getVisitedNodes()) {
+            System.out.println("AStar Was more efficient: " + asp.getVisitedNodes() + " nodes visited instead of Dijkstra " + dsp.getVisitedNodes() + " node visits");
+            System.out.println("From: " + from + " To: " + to);
+            System.out.println("Dijkstra:");
             System.out.println(dsp);
-            dsp.printNodesInVisitedOrder();
-            System.out.println("Dijkstra weight: " + dijkstraWeight);
+            System.out.println("Weight: " + dsp.getTotalWeight());
+            System.out.println("AStar:");
             System.out.println(asp);
-            asp.printNodesInVisitedOrder();
-            System.out.println("AStar weight: " + astarWeight);
+            System.out.println("Weight: " + asp.getTotalWeight());
         }
     }
 

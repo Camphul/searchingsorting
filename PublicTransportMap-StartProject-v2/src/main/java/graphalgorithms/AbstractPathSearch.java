@@ -23,6 +23,7 @@ public abstract class AbstractPathSearch {
     protected TransportGraph graph;
     protected final int startIndex;
     protected final int endIndex;
+    protected int visitedNodes = 0;
 
 
     public AbstractPathSearch(TransportGraph graph, String start, String end) {
@@ -104,15 +105,26 @@ public abstract class AbstractPathSearch {
     }
 
 
+    protected void markVisited(int vertex) {
+        this.visitedNodes++;
+        this.nodesVisited.add(this.graph.getStation(vertex));
+    }
+
     /**
      * Method to print all the nodes that are visited by the search algorithm implemented in one of the subclasses.
      */
     public void printNodesInVisitedOrder() {
+        this.visitedNodes = 0;
         System.out.print("Nodes in visited order: ");
         for (Station vertex : nodesVisited) {
+            this.visitedNodes++;
             System.out.print(vertex.getStationName() + " ");
         }
         System.out.println();
+    }
+
+    public int getVisitedNodes() {
+        return visitedNodes;
     }
 
     @Override

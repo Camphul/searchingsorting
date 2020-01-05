@@ -33,12 +33,16 @@ public class DijkstraShortestPath extends AbstractPathSearch {
         this.pq.insert(startIndex, distTo[this.startIndex]);
         while (!this.pq.isEmpty()) {
             int vertex = this.pq.delMin();
-            this.nodesVisited.add(this.graph.getStation(vertex));
+            if(vertex == endIndex) {
+                pathTo(vertex);
+                return;
+            }
+            markVisited(vertex);
             for (Integer adjacentVertex : this.graph.getAdjacentVertices(vertex)) {
                 Connection connection = this.graph.getConnection(vertex, adjacentVertex);
                 //Now relax the edge/connection
                 double weight = connection.getWeight();
-                this.nodesVisited.add(this.graph.getStation(adjacentVertex));
+                markVisited(adjacentVertex);
                 if (this.distTo[adjacentVertex] > distTo[vertex] + weight) {
                     this.distTo[adjacentVertex] = distTo[vertex] + weight;
                     this.edgeTo[adjacentVertex] = vertex;

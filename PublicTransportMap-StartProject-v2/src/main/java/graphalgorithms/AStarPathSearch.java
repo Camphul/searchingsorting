@@ -27,26 +27,28 @@ public class AStarPathSearch extends AbstractPathSearch {
 
     @Override
     public void search() {
-        Station startStation = this.graph.getStation(this.startIndex);
-        Station endStation = this.graph.getStation(this.endIndex);
-        this.distTo[this.startIndex] = startStation.getLocation().travelTime(endStation.getLocation());
-        this.pq.insert(startIndex, distTo[this.startIndex]);
+        this.distTo[this.startIndex] = 0;
+        this.pq.insert(startIndex, getHeuristic(startIndex));
         while (!this.pq.isEmpty()) {
             int vertex = this.pq.delMin();
-            this.nodesVisited.add(this.graph.getStation(vertex));
+            if(vertex == endIndex) {
+                pathTo(vertex);
+                return;
+            }
+            markVisited(vertex);
             for (Integer adjacentVertex : this.graph.getAdjacentVertices(vertex)) {
                 Connection connection = this.graph.getConnection(vertex, adjacentVertex);
                 //Now relax the edge/connection
-                double weight = connection.getWeight();
-                //TODO ADD HEURISTICS
-                this.nodesVisited.add(this.graph.getStation(adjacentVertex));
-                if (this.distTo[adjacentVertex] > distTo[vertex] + weight) {
-                    this.distTo[adjacentVertex] = distTo[vertex] + weight;
-                    this.edgeTo[adjacentVertex] = vertex;
-                    if (this.pq.contains(adjacentVertex)) {
-                        this.pq.decreaseKey(adjacentVertex, this.distTo[adjacentVertex]);
+                markVisited(vertex);
+                double heuristic = getHeuristic(adjacentVertex);
+                double tentative = distTo[vertex] + connection.getWeight();
+                if(tentative + heuristic < distTo[adjacentVertex] + heuristic) {
+                    edgeTo[adjacentVertex] = vertex;
+                    distTo[adjacentVertex] = tentative;
+                    if(pq.contains(adjacentVertex)) {
+                        pq.decreaseKey(adjacentVertex, tentative + heuristic);
                     } else {
-                        this.pq.insert(adjacentVertex, this.distTo[adjacentVertex]);
+                        pq.insert(adjacentVertex, tentative + heuristic);
                     }
                 }
             }
