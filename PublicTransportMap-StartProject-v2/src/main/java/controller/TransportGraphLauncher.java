@@ -39,9 +39,9 @@ public class TransportGraphLauncher {
                 .locate("Swingstraat", 10, 9).locate("Bachgracht", 11, 11)
                 .locate("Nobelplein", 12, 13)
                 .buildStationSet().addLinesToStations().buildConnections().build();
-
+        System.out.println(transportGraph);
         System.out.println("Dijkstra:");
-        DijkstraShortestPath dsp = new DijkstraShortestPath(transportGraph, "Trojelaan", "Meridiaan");
+        DijkstraShortestPath dsp = new DijkstraShortestPath(transportGraph, "Trojelaan", "Centrum");
         dsp.search();
         System.out.println(dsp);
         dsp.printNodesInVisitedOrder();
@@ -49,13 +49,13 @@ public class TransportGraphLauncher {
         System.out.println("Total weight: " + dsp.getTotalWeight());
 
         System.out.println("A Star:");
-        AStarPathSearch asp = new AStarPathSearch(transportGraph, "Trojelaan", "Meridiaan");
+        AStarPathSearch asp = new AStarPathSearch(transportGraph, "Trojelaan", "Centrum");
         asp.search();
         System.out.println(asp);
         asp.printNodesInVisitedOrder();
         System.out.println();
         System.out.println("Total weight: " + asp.getTotalWeight());
-        measure(transportGraph);
+        measureDspAsp(transportGraph);
         /*DepthFirstPath dfpTest = new DepthFirstPath(transportGraph, "Nobelplein", "Coltrane Cirkel");
         dfpTest.search();
         System.out.println(dfpTest);
@@ -70,19 +70,19 @@ public class TransportGraphLauncher {
 
     }
 
-    public static void measure(TransportGraph graph) {
+    public static void measureDspAsp(TransportGraph graph) {
         for (Station station : graph.getStationList()) {
             String from = station.getStationName();
             for (Station station1 : graph.getStationList()) {
                 String to = station1.getStationName();
                 if (!from.equals(to)) {
-                    measure(graph, from, to);
+                    measureDspAsp(graph, from, to);
                 }
             }
         }
     }
 
-    public static void measure(TransportGraph graph, String from, String to) {
+    public static void measureDspAsp(TransportGraph graph, String from, String to) {
         //System.out.println("From: " + from + " To: " + to);
         DijkstraShortestPath dsp = new DijkstraShortestPath(graph, from, to);
         dsp.search();
