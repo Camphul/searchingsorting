@@ -179,6 +179,7 @@ public class TransportGraph {
 
         /**
          * Sets the location for a station inside the builder.
+         *
          * @param stationName
          * @param x
          * @param y
@@ -200,7 +201,7 @@ public class TransportGraph {
                 for (Station station : line.getStationsOnLine()) {
                     String name = station.getStationName();
                     //Adds location to station when present.
-                    if(this.locations.containsKey(name)) {
+                    if (this.locations.containsKey(name)) {
                         station.setLocation(this.locations.get(name));
                     }
                     this.stationSet.add(station);

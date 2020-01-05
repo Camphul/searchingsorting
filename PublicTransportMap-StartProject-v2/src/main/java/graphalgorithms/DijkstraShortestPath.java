@@ -2,7 +2,6 @@ package graphalgorithms;
 
 import model.Connection;
 import model.IndexMinPQ;
-import model.Station;
 import model.TransportGraph;
 
 /**
@@ -33,7 +32,7 @@ public class DijkstraShortestPath extends AbstractPathSearch {
         this.pq.insert(startIndex, distTo[this.startIndex]);
         while (!this.pq.isEmpty()) {
             int vertex = this.pq.delMin();
-            if(vertex == endIndex) {
+            if (vertex == endIndex) {
                 pathTo(vertex);
                 return;
             }

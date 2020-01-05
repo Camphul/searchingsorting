@@ -7,6 +7,7 @@ import model.TransportGraph;
 
 /**
  * A* search algorithm. Based from the Dijkstra implementation but added the location heuristic.
+ *
  * @author <a href="mailto:luca@camphuisen.com">Luca Camphuisen</a>
  * @since 1/5/20
  */
@@ -31,7 +32,7 @@ public class AStarPathSearch extends AbstractPathSearch {
         this.pq.insert(startIndex, getHeuristic(startIndex));
         while (!this.pq.isEmpty()) {
             int vertex = this.pq.delMin();
-            if(vertex == endIndex) {
+            if (vertex == endIndex) {
                 pathTo(vertex);
                 return;
             }
@@ -42,10 +43,10 @@ public class AStarPathSearch extends AbstractPathSearch {
                 markVisited(vertex);
                 double heuristic = getHeuristic(adjacentVertex);
                 double tentative = distTo[vertex] + connection.getWeight();
-                if(tentative + heuristic < distTo[adjacentVertex] + heuristic) {
+                if (tentative + heuristic < distTo[adjacentVertex] + heuristic) {
                     edgeTo[adjacentVertex] = vertex;
                     distTo[adjacentVertex] = tentative;
-                    if(pq.contains(adjacentVertex)) {
+                    if (pq.contains(adjacentVertex)) {
                         pq.decreaseKey(adjacentVertex, tentative + heuristic);
                     } else {
                         pq.insert(adjacentVertex, tentative + heuristic);
@@ -59,6 +60,7 @@ public class AStarPathSearch extends AbstractPathSearch {
     /**
      * Get the heuristic value for a certain vertex.
      * The travel time for the vertex to reach the end vertex.
+     *
      * @param vertex
      * @return
      */

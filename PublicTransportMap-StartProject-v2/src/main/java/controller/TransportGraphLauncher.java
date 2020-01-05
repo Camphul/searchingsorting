@@ -29,9 +29,9 @@ public class TransportGraphLauncher {
         double[] yellowWeights = {26, 19, 37, 25, 22, 28};
         TransportGraph transportGraph = new TransportGraph.Builder()
                 .addLine(redLine, redWeights).addLine(blueLine, blueWeights).addLine(purpleLine, purpleWeights).addLine(greenLine, greenWeights).addLine(yellowLine, yellowWeights)
-                .locate("Grote Sluis", 2, 3).locate("Oostvaarders", 0,11)
+                .locate("Grote Sluis", 2, 3).locate("Oostvaarders", 0, 11)
                 .locate("Grootzeil", 4, 6).locate("Dukdalf", 3, 10)
-                .locate("Ymeerdijk", 9,0).locate("Trojelaan", 9,3)
+                .locate("Ymeerdijk", 9, 0).locate("Trojelaan", 9, 3)
                 .locate("Coltrane Cirkel", 7, 6).locate("Meridiaan", 6, 9)
                 .locate("Robijnpark", 6, 12).locate("Violetplantsoen", 5, 14)
                 .locate("Haven", 14, 1).locate("Marken", 12, 3)
@@ -75,7 +75,7 @@ public class TransportGraphLauncher {
             String from = station.getStationName();
             for (Station station1 : graph.getStationList()) {
                 String to = station1.getStationName();
-                if(!from.equals(to)) {
+                if (!from.equals(to)) {
                     measure(graph, from, to);
                 }
             }
@@ -88,15 +88,9 @@ public class TransportGraphLauncher {
         dsp.search();
         AStarPathSearch asp = new AStarPathSearch(graph, from, to);
         asp.search();
-        if(asp.getVisitedNodes() < dsp.getVisitedNodes()) {
+        if (asp.getVisitedNodes() < dsp.getVisitedNodes()) {
             System.out.println("AStar Was more efficient: " + asp.getVisitedNodes() + " nodes visited instead of Dijkstra " + dsp.getVisitedNodes() + " node visits");
             System.out.println("From: " + from + " To: " + to);
-            System.out.println("Dijkstra:");
-            System.out.println(dsp);
-            System.out.println("Weight: " + dsp.getTotalWeight());
-            System.out.println("AStar:");
-            System.out.println(asp);
-            System.out.println("Weight: " + asp.getTotalWeight());
         }
     }
 

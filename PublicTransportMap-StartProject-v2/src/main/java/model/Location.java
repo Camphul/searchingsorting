@@ -17,6 +17,7 @@ public class Location {
 
     /**
      * Find travel time to another location.
+     *
      * @param location
      * @return
      */
