@@ -15,6 +15,14 @@ public class Line {
         stationsOnLine = new ArrayList<>();
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
     public void addStation(Station station) {
         stationsOnLine.add(station);
     }

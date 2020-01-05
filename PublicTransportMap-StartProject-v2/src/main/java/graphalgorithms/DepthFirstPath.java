@@ -1,5 +1,6 @@
 package graphalgorithms;
 
+import model.Station;
 import model.TransportGraph;
 
 /**
@@ -14,10 +15,19 @@ public class DepthFirstPath extends AbstractPathSearch {
 
     @Override
     public void search() {
-
+        depthFirstSearch(this.startIndex);
+        pathTo(this.endIndex);
     }
 
     public void depthFirstSearch(int vertex) {
-
+        this.marked[vertex] = true;
+        for (Integer adjacentVertex : this.graph.getAdjacentVertices(vertex)) {
+            if (!this.marked[adjacentVertex]) {
+                this.edgeTo[adjacentVertex] = vertex;
+                Station station = this.graph.getStation(adjacentVertex);
+                this.nodesVisited.add(station);
+                depthFirstSearch(adjacentVertex);
+            }
+        }
     }
 }

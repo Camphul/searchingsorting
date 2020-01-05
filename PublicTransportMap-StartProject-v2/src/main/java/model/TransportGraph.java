@@ -128,11 +128,13 @@ public class TransportGraph {
         private Set<Station> stationSet;
         private List<Line> lineList;
         private Set<Connection> connectionSet;
+        private Map<Line, double[]> weights;
 
         public Builder() {
             lineList = new ArrayList<>();
             stationSet = new HashSet<>();
             connectionSet = new HashSet<>();
+            weights = new HashMap<>();
         }
 
         /**
@@ -143,6 +145,17 @@ public class TransportGraph {
          * @return
          */
         public Builder addLine(String[] lineDefinition) {
+            return addLine(lineDefinition, new double[0]);
+        }
+
+        /**
+         * Custom builder method adding weights to the connections by configuring them in a map.
+         *
+         * @param lineDefinition the line definition.
+         * @param weights        weights array.
+         * @return buiilder.
+         */
+        public Builder addLine(String[] lineDefinition, double[] weights) {
             if (lineDefinition.length < 2) {
                 throw new IllegalArgumentException("Expected minimum length of 2");
             }
@@ -155,6 +168,9 @@ public class TransportGraph {
                 line.addStation(station);
             }
             this.lineList.add(line);
+            if (weights != null && weights.length > 0) {
+                this.weights.put(line, weights);
+            }
             // DONE
             return this;
         }
@@ -207,7 +223,11 @@ public class TransportGraph {
                 for (int i = 0; i < line.getStationsOnLine().size() - 1; i++) {
                     Station from = line.getStationsOnLine().get(i);
                     Station to = line.getStationsOnLine().get(i + 1);
-                    Connection connection = new Connection(from, to, 0, line);
+                    double weight = 0;
+                    if (this.weights.containsKey(line)) {
+                        weight = this.weights.get(line)[i];
+                    }
+                    Connection connection = new Connection(from, to, weight, line);
                     this.connectionSet.add(connection);
                 }
             }

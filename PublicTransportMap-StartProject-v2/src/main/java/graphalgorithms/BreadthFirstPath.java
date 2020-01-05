@@ -26,8 +26,8 @@ public class BreadthFirstPath extends AbstractPathSearch {
             int vertex = q.poll();
             for (Integer adjacentVertex : this.graph.getAdjacentVertices(vertex)) {
                 if (!marked[adjacentVertex]) {
-                    marked[adjacentVertex] = true;
-                    edgeTo[adjacentVertex] = vertex;
+                    this.marked[adjacentVertex] = true;
+                    this.edgeTo[adjacentVertex] = vertex;
                     Station station = this.graph.getStation(adjacentVertex);
                     this.nodesVisited.add(station);
                     q.add(adjacentVertex);
