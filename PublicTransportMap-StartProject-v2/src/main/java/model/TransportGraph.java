@@ -177,7 +177,14 @@ public class TransportGraph {
             return this;
         }
 
-        public Builder location(String stationName, int x, int y) {
+        /**
+         * Sets the location for a station inside the builder.
+         * @param stationName
+         * @param x
+         * @param y
+         * @return
+         */
+        public Builder locate(String stationName, int x, int y) {
             this.locations.put(stationName, new Location(x, y));
             return this;
         }
@@ -192,6 +199,7 @@ public class TransportGraph {
             for (Line line : lineList) {
                 for (Station station : line.getStationsOnLine()) {
                     String name = station.getStationName();
+                    //Adds location to station when present.
                     if(this.locations.containsKey(name)) {
                         station.setLocation(this.locations.get(name));
                     }
@@ -234,6 +242,7 @@ public class TransportGraph {
                     Station from = line.getStationsOnLine().get(i);
                     Station to = line.getStationsOnLine().get(i + 1);
                     double weight = 0;
+                    //Adds weight to connection when present.
                     if (this.weights.containsKey(line)) {
                         weight = this.weights.get(line)[i];
                     }

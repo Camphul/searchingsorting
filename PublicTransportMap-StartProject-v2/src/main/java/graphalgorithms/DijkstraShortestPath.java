@@ -2,6 +2,7 @@ package graphalgorithms;
 
 import model.Connection;
 import model.IndexMinPQ;
+import model.Station;
 import model.TransportGraph;
 
 /**
@@ -58,6 +59,7 @@ public class DijkstraShortestPath extends AbstractPathSearch {
     }
 
     public double getTotalWeight() {
+        //Get all connections in the vertices path and add all weights together
         double totalWeight = 0;
         for (int i = 0; i < this.verticesInPath.size() - 1; i++) {
             int from = this.verticesInPath.get(i);
