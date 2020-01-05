@@ -29,13 +29,16 @@ public class AStarPathSearch extends AbstractPathSearch {
     @Override
     public void search() {
         this.distTo[this.startIndex] = 0;
+        //Start at station
         this.pq.insert(startIndex, getHeuristic(startIndex));
         while (!this.pq.isEmpty()) {
             int vertex = this.pq.delMin();
+            //Check if end is reached.
             if (vertex == endIndex) {
                 pathTo(vertex);
                 return;
             }
+            //Mark as visited.
             markVisited(vertex);
             for (Integer adjacentVertex : this.graph.getAdjacentVertices(vertex)) {
                 Connection connection = this.graph.getConnection(vertex, adjacentVertex);
@@ -43,6 +46,7 @@ public class AStarPathSearch extends AbstractPathSearch {
                 markVisited(vertex);
                 double heuristic = getHeuristic(adjacentVertex);
                 double tentative = distTo[vertex] + connection.getWeight();
+                //Check if adjacent station is closer than any previous one.
                 if (tentative + heuristic < distTo[adjacentVertex] + heuristic) {
                     edgeTo[adjacentVertex] = vertex;
                     distTo[adjacentVertex] = tentative;
