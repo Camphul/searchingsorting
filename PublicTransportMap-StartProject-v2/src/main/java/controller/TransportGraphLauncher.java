@@ -10,6 +10,7 @@ import model.TransportGraph;
 public class TransportGraphLauncher {
 
     public static void main(String[] args) {
+        assignmentA();
         assignmentBC();
     }
 
@@ -119,6 +120,20 @@ public class TransportGraphLauncher {
         System.out.println(bfsTest);
         bfsTest.printNodesInVisitedOrder();
 
-        //TODO: Make an overview of all the path from all stations to all other stations with the least connections.
+        //Overview
+        for (Station station : transportGraph.getStationList()) {
+            for (Station station1 : transportGraph.getStationList()) {
+                if(!station.getStationName().equals(station1.getStationName())) {
+                    String from = station.getStationName();
+                    String to = station1.getStationName();
+                    BreadthFirstPath bfp = new BreadthFirstPath(transportGraph, from, to);
+                    bfp.search();
+                    System.out.println("BFP: " + bfp);
+                    DepthFirstPath dfp = new DepthFirstPath(transportGraph, from, to);
+                    dfp.search();
+                    System.out.println("DFP: " + dfp);
+                }
+            }
+        }
     }
 }
