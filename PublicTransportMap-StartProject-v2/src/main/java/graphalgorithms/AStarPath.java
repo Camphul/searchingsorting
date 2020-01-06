@@ -14,13 +14,13 @@ import model.TransportGraph;
 public class AStarPath extends AbstractPathSearch {
     private static final double INFINITY = Double.POSITIVE_INFINITY;
     private double[] distTo;
-    private IndexMinPQ<Double> pq;
+    private IndexMinPQ<Double> priorityQueue;
 
     public AStarPath(TransportGraph graph, String start, String end) {
         super(graph, start, end);
         int numVertices = graph.getNumberOfStations();
         this.distTo = new double[numVertices];
-        this.pq = new IndexMinPQ(numVertices);
+        this.priorityQueue = new IndexMinPQ(numVertices);
         for (int i = 0; i < numVertices; i++) {
             distTo[i] = INFINITY;
         }
@@ -30,11 +30,11 @@ public class AStarPath extends AbstractPathSearch {
     public void search() {
         this.distTo[this.startIndex] = 0;
         //Start at station
-        this.pq.insert(startIndex, getHeuristic(startIndex));
-        while (!this.pq.isEmpty()) {
-            int vertex = this.pq.delMin();
+        this.priorityQueue.insert(startIndex, getHeuristic(this.startIndex));
+        while (!this.priorityQueue.isEmpty()) {
+            int vertex = this.priorityQueue.delMin();
             //Check if end is reached.
-            if (vertex == endIndex) {
+            if (vertex == this.endIndex) {
                 pathTo(vertex);
                 return;
             }
@@ -45,15 +45,15 @@ public class AStarPath extends AbstractPathSearch {
                 //Now relax the edge/connection
                 markVisited(vertex);
                 double heuristic = getHeuristic(adjacentVertex);
-                double tentative = distTo[vertex] + connection.getWeight();
+                double tentative = this.distTo[vertex] + connection.getWeight();
                 //Check if adjacent station is closer than any previous one.
-                if (tentative + heuristic < distTo[adjacentVertex] + heuristic) {
-                    edgeTo[adjacentVertex] = vertex;
-                    distTo[adjacentVertex] = tentative;
-                    if (pq.contains(adjacentVertex)) {
-                        pq.decreaseKey(adjacentVertex, tentative + heuristic);
+                if (tentative + heuristic < this.distTo[adjacentVertex] + heuristic) {
+                    this.edgeTo[adjacentVertex] = vertex;
+                    this.distTo[adjacentVertex] = tentative;
+                    if (this.priorityQueue.contains(adjacentVertex)) {
+                        this.priorityQueue.decreaseKey(adjacentVertex, tentative + heuristic);
                     } else {
-                        pq.insert(adjacentVertex, tentative + heuristic);
+                        this.priorityQueue.insert(adjacentVertex, tentative + heuristic);
                     }
                 }
             }
