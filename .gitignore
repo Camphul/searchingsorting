@@ -58,3 +58,5 @@ modules.xml
 
 # Project exclude paths
 /4-textsearch/target/
+*.pdf
+SandS-4-JeroenDeJong-LucaCamphuisen.zip
